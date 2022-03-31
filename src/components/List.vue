@@ -27,16 +27,16 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch, ComputedRef } from 'vue';
+import { ref, watch } from 'vue';
 import { generateRandomColors } from '@/utils/randomColors';
 
 const initTranslate: number = 0;
 const itemTranslate = ref<Number>(initTranslate);
 const itemTranslateCSS = (index: number): string => {
   if (isTouching.value && Math.abs(Number(distanceSwiped.value)) > 0) {
-    // calculate the offset value depend on the index of the element
+    // todo: calculate the offset value depend on the index of the element
     const offSetY =
-      Number(itemTranslate.value) + (index * Number(listItemHeight.value.slice(0, 3))) / 2;
+      Number(itemTranslate.value) + (index * Number(listItemHeight.value.slice(0, 3))) / 10;
     return `transform: translate3D(0, ${offSetY}px, 0)`;
   }
   return `transform: translate3D(0, ${itemTranslate.value}px, 0)`;
@@ -129,5 +129,6 @@ const bgColors = ref(generateRandomColors(Number(listItemNum.value)));
   box-shadow: -20px -10px 19px 13px rgb(0 0 0 / 10%);
   border-radius: 8px;
   margin-bottom: -20px;
+  transition: transform 0.1s;
 }
 </style>
