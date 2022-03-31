@@ -47,14 +47,9 @@ let isLastItemScrollToBottom = reactive<Boolean>(false);
 
 const getFirstAndLastItemPosition = (): void => {
   const firstItemPosition: number = firstListItem.value.getBoundingClientRect().y;
-  const lastItemPosition: number = lastListItem.value.getBoundingClientRect().y;
+  const lastItemPosition: number = Math.floor(lastListItem.value.getBoundingClientRect().y);
   isFirstItemScrollToTop = firstItemPosition > 0;
-  console.log(firstItemPosition, isFirstItemScrollToTop);
-
-  if (lastItemPosition + lastListItem.value.offsetHeight >= viewPortHeight) {
-    isLastItemScrollToBottom = true;
-    // console.log(lastItemPosition, isLastItemScrollToBottom);
-  }
+  isLastItemScrollToBottom = lastItemPosition + lastListItem.value.offsetHeight <= viewPortHeight;
 };
 
 const onTouchStart = (event: TouchEvent): void => {
