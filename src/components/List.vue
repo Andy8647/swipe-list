@@ -33,16 +33,24 @@ import { generateRandomColors } from '@/utils/randomColors';
 const initTranslate: number = 0;
 const itemTranslate = ref<Number>(initTranslate);
 const itemTranslateCSS = (index: number): string => {
-  if (isTouching.value && Math.abs(Number(distanceSwiped.value)) > 0) {
-    // todo: calculate the offset value depend on the index of the element
-    const offSetY =
-      Number(itemTranslate.value) + (index * Number(listItemHeight.value.slice(0, 3))) / 10;
+  if (isTouching.value && Math.abs(Number(distanceSwiped.value)) > 15) {
+    const offSetY = calculateOffSetY(index);
     return `transform: translate3D(0, ${offSetY}px, 0)`;
   }
   return `transform: translate3D(0, ${itemTranslate.value}px, 0)`;
 };
 
-const listItemNum = ref<Number>(20);
+const calculateOffSetY = (index: number): number => {
+  // todo: calculate the offset value depend on the index of the element
+  const swipeDistanceWeight: number = 2;
+  const itemIndexWeight: number = 0.15;
+  return (
+    Number(itemTranslate.value) * swipeDistanceWeight +
+    index * Number(listItemHeight.value.slice(0, 3)) * itemIndexWeight
+  );
+};
+
+const listItemNum = ref<Number>(10);
 const listItemHeight = ref<String>('100px');
 const firstListItem = ref<HTMLElement>(document.createElement('div'));
 const lastListItem = ref<HTMLElement>(document.createElement('div'));
@@ -98,6 +106,7 @@ const onTouchEnd = (event: TouchEvent): void => {
   getFirstAndLastItemPosition();
   // reset the translate to init
   itemTranslate.value = initTranslate;
+  distanceSwiped.value = 0;
 };
 
 const getTouchPosition = (event: TouchEvent): Number => {
