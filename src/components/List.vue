@@ -138,6 +138,6 @@ const bgColors = ref(generateRandomColors(Number(listItemNum.value)));
   box-shadow: -20px -10px 19px 13px rgb(0 0 0 / 10%);
   border-radius: 8px;
   margin-bottom: -20px;
-  transition: transform 0.1s ease-in-out;
+  transition: transform 0.2s cubic-bezier(0.92, 0.67, 0, 1.05);
 }
 </style>
